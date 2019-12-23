@@ -13,8 +13,8 @@ namespace PokerGameConsole
             var beginInstructions = "1)Press ESC to quit\n2)Press Enter to start the game\n3)Press Y to create new player\n4)Press S to go to settings";
             var playerDecisionInstruction = "1)Press V to check\n2)Press A to all-in\n3)Press F to fold\n4)Press B to bet and then enter the bet\n5)Press R to raise(at least x2) and then enter the bet\n6)Press C to call";
             IBotLevel botLvl=null;
-            var key = new ConsoleKeyInfo();
             Player myPlayer = null;
+            var key = new ConsoleKeyInfo();
             while (true)
             {
                 Console.WriteLine(beginInstructions);

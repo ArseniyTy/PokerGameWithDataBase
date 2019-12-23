@@ -15,6 +15,28 @@ namespace PokerGameLibrary.Classes
     /// </summary>
     public abstract class GameSession
     {
+
+        private DateTime _beginningTime;
+        private void TimeUpdate()
+        {
+            if (!Finished) //if not finished then updating _time
+            {
+                DateTime currTime = DateTime.UtcNow;
+                _time = currTime.Subtract(_beginningTime).TotalMinutes;
+            }
+        }
+        private double _time;
+        public double Time
+        {
+            get 
+            {
+                TimeUpdate();
+                return _time;
+            }
+        }
+        
+
+
         /// <summary>
         /// Equals true when the game is finished
         /// </summary>
@@ -152,6 +174,7 @@ namespace PokerGameLibrary.Classes
         public GameSession(int minBet, params int[] moneyOfThePlayers)
         {
             //инициализация
+            _beginningTime = DateTime.UtcNow;
             Bank = 0;
             MinBet = minBet;
             if(moneyOfThePlayers!=null)
@@ -250,6 +273,7 @@ namespace PokerGameLibrary.Classes
                         RoundAfterUpdate();
                         FinalResult();
                         Finished = true;
+                        TimeUpdate();
                         return false;
                     }
                 case 0://разадача карт
