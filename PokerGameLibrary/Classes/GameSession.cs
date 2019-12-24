@@ -22,11 +22,11 @@ namespace PokerGameLibrary.Classes
             if (!Finished) //if not finished then updating _time
             {
                 DateTime currTime = DateTime.UtcNow;
-                _time = currTime.Subtract(_beginningTime).TotalMinutes;
+                _time = (int)currTime.Subtract(_beginningTime).TotalMinutes;
             }
         }
-        private double _time;
-        public double Time
+        private int _time;
+        public int Time
         {
             get 
             {

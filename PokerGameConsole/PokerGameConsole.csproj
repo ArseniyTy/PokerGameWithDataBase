@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DatabaseService\DatabaseService.csproj" />
     <ProjectReference Include="..\PokerGameLibrary\PokerGameLibrary.csproj" />
   </ItemGroup>
 

@@ -13,6 +13,8 @@ namespace PokerGameLibrary.Classes
     /// </summary>   
     public class Player : IPlayer, IPlayerCards, IPlayerGameActions, IComparable<Player>
     {
+        public string Name { get; set; }
+
         /// <summary>
         /// Storages money the player must call.
         /// </summary>

@@ -8,6 +8,7 @@ namespace DatabaseService.Entities.Models
     {
         public int Id { get; set; }
         public bool WinCondintion { get; set; }
+        public string GameStatus { get; set; }
         public int NumOfPlayers { get; set; }
         public int GameTime { get; set; }
         public int Bank { get; set; }
@@ -15,8 +16,8 @@ namespace DatabaseService.Entities.Models
 
         public override string ToString()
         {
-            return String.Format("WinCondition: {0}, NumOfPlayers: {1}, GameTime: {2}, Bank: {3}, Profit {4}", 
-                WinCondintion, NumOfPlayers, GameTime, Bank, Profit);
+            return String.Format("WinCondition: {0}, Status: {1}, NumOfPlayers: {2}, GameTime: {3}, Bank: {4}, Profit {5}", 
+                WinCondintion, GameStatus, NumOfPlayers, GameTime, Bank, Profit);
         }
 
 

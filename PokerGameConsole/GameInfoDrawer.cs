@@ -4,6 +4,8 @@ using System.Text;
 using PokerGameLibrary.Enums;
 using PokerGameLibrary.Classes.Bots;
 using PokerGameLibrary.Interfaces;
+using PokerGameLibrary.Classes;
+using DatabaseService;
 
 namespace PokerGameConsole
 {
@@ -129,6 +131,14 @@ namespace PokerGameConsole
             return cardToStr;
         }
 
+
+        public static void PlayerGameStatViewConsole(Player player)
+        {
+            foreach (var p in GameStatistics.PlayerGameStatView(player))
+            {
+                Console.WriteLine(p.ToString());
+            }
+        }
 
         /// <summary>
         /// Outputs the info and game process of the game session in Console.

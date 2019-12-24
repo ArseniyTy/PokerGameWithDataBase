@@ -11,14 +11,20 @@ namespace DatabaseService.Entities
         public DbSet<PlayerModel> Players { get; set; }
         public DbSet<GameSessionModel> PlayerGames { get; set; }
 
+
+        public PokerGameContext()
+        {
+            Database.EnsureCreated();
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=pokerGameDb;Trusted_Connection=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PlayerModel>().HasKey(p => p.Name);
+
 
             //One-to-many
             modelBuilder.Entity<PlayerModel>()
