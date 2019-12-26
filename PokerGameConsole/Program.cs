@@ -46,7 +46,7 @@ namespace PokerGameConsole
                     }
                     else
                     {
-                        Registration.LogIn(name, money, password);
+                        Registration.SignUp(name, money, password);
                         Console.WriteLine("Your registration is completed!");
                         Console.WriteLine("Sign in now");
                         Console.ReadKey();

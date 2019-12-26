@@ -8,7 +8,7 @@ namespace DatabaseService
     public static class Registration
     {
         //нельзя одинаковые имена + это же у нас ключ => как будет реагировать бд
-        public static void LogIn(string name, int money, string password)
+        public static void SignUp(string name, int money, string password)
         {
             //запись в бд
             var pokerGameContext = new PokerGameContext();
