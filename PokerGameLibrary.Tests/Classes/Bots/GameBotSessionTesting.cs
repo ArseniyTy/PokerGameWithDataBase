@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using PokerGameLibrary.Bots;
 using PokerGameLibrary.Classes;
-using PokerGameLibrary.Classes.Bots;
 using PokerGameLibrary.Enums;
 using PokerGameLibrary.Interfaces;
 

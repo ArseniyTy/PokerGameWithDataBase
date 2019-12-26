@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Classes;
+using PokerGameLibrary.Bots.BotLevels;
+using PokerGameLibrary.GamePlayer.Enums;
+using PokerGameLibrary.GamePlayer;
 
-namespace PokerGameLibrary.Classes.Bots
+namespace PokerGameLibrary.Bots
 {
     /// <summary>
     /// Represents offLine game session with bots.
@@ -46,7 +46,7 @@ namespace PokerGameLibrary.Classes.Bots
         /// </summary>
         /// <param name="minBet">The minimum bet in the game.</param>
         /// <param name="moneyOfThePlayers">Integer array, which representes the amount of money they have</param>
-        public GameBotSession(int minBet, params int[] moneyOfThePlayers) : base(minBet,moneyOfThePlayers)
+        public GameBotSession(int minBet, params int[] moneyOfThePlayers) : base(minBet, moneyOfThePlayers)
         {
             myPlayer = Players[0];
             WaitingForMyPlayer = false;
@@ -66,17 +66,17 @@ namespace PokerGameLibrary.Classes.Bots
             //если это бот, то делает за него решение, если игрок, то оставляет запрос
             //НО если игрок в ожидании, то значит он ходит(т.к. мы идём по порядку, то значит это
             //первый в ожидании)
-            for(int i=0; i<inGamePlayers.Count;i++)
+            for (int i = 0; i < inGamePlayers.Count; i++)
             {
                 int prInd = i - 1;
                 if (i == 0)
                     prInd = inGamePlayers.Count - 1;
 
-                if (inGamePlayers[i].Status == PlayerStatus.Waiting || ((inGamePlayers[i].Status==PlayerStatus.InAuction || inGamePlayers[i].Status == PlayerStatus.Check) && inGamePlayers[i].CurrBetMoney < inGamePlayers[prInd].CurrBetMoney))
+                if (inGamePlayers[i].Status == PlayerStatus.Waiting || (inGamePlayers[i].Status == PlayerStatus.InAuction || inGamePlayers[i].Status == PlayerStatus.Check) && inGamePlayers[i].CurrBetMoney < inGamePlayers[prInd].CurrBetMoney)
                 {
                     inGamePlayers[i].PossibleGameActionsMethodsUpdater(inGamePlayers[prInd]);
                     //if (inGamePlayers[i].Equals(myPlayer))
-                    if (inGamePlayers[i].AllCardsEqual(myPlayer)==0)
+                    if (inGamePlayers[i].AllCardsEqual(myPlayer) == 0)
                         WaitingForMyPlayer = true;
                     else
                         _botLevel.RoundDecision(inGamePlayers[i], this);

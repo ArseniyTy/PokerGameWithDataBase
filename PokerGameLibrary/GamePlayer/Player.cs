@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Enums;
+using PokerGameLibrary.Cards.Enums;
+using PokerGameLibrary.Cards;
+using PokerGameLibrary.GamePlayer.Enums;
 
-namespace PokerGameLibrary.Classes
+namespace PokerGameLibrary.GamePlayer
 {
 
     /// <summary>
@@ -40,11 +41,11 @@ namespace PokerGameLibrary.Classes
         public int Money
         {
             get { return _money; }
-            set 
+            set
             {
                 if (value < 0)
                     throw new Exception("The player cannot have negative amount of money");
-                _money = value; 
+                _money = value;
             }
         }
 
@@ -140,7 +141,7 @@ namespace PokerGameLibrary.Classes
         /// <exception cref="Exception">Throws when the player cannot make this action.</exception>
         public void Bet(int money)
         {
-            if (!_possibleGameActionsMethods.Contains("Bet") && MoneyToCall!=0)
+            if (!_possibleGameActionsMethods.Contains("Bet") && MoneyToCall != 0)
                 throw new Exception("You cannot use this method in current game situation!");
 
             Status = PlayerStatus.InAuction;
@@ -165,7 +166,7 @@ namespace PokerGameLibrary.Classes
                 throw new Exception("You cannot use this method in current game situation!");
             _possibleGameActionsMethods.Add("Bet");//чтобы потом в bet не выдало ошибку
             Bet(MoneyToCall);
-            
+
         }
         /// <summary>
         /// Makes a Raise in the game.
@@ -177,7 +178,7 @@ namespace PokerGameLibrary.Classes
                 throw new Exception("You cannot use this method in current game situation!");
             _possibleGameActionsMethods.Add("Bet");//чтобы потом в bet не выдало ошибку
 
-            if(money<MoneyToCall*2)
+            if (money < MoneyToCall * 2)
                 throw new Exception("You can raise not less than x2!");
             Bet(money);
         }
@@ -239,7 +240,7 @@ namespace PokerGameLibrary.Classes
 
             for (int i = 0; i < CardList.Count; i++)
             {
-                if(CardList[i].CompareTo(other.CardList[i])!=0)
+                if (CardList[i].CompareTo(other.CardList[i]) != 0)
                     return -CardList[i].CompareTo(other.CardList[i]);
             }
             return 0;
@@ -271,7 +272,7 @@ namespace PokerGameLibrary.Classes
         public List<Card> CardList
         {
             get { return _cardList; }
-            set 
+            set
             {
                 if (value == null)
                     _cardList = new List<Card>();
@@ -322,17 +323,17 @@ namespace PokerGameLibrary.Classes
             for (int i = 1; i < cardsListSorted.Count; i++)
             {
                 cardSuitsNum[(int)cardsListSorted[i].CardSuit]++;
-                if (cardsListSorted[i-1].CardValue - cardsListSorted[i].CardValue == 1 || cardsListSorted[i - 1].CardValue - cardsListSorted[i].CardValue == 0)
+                if (cardsListSorted[i - 1].CardValue - cardsListSorted[i].CardValue == 1 || cardsListSorted[i - 1].CardValue - cardsListSorted[i].CardValue == 0)
                 {
                     diffOn1InRowNum++;
-                    if (diffOn1InRowNum==1)//если это первая находка пары, то надо их обоих посчитать
+                    if (diffOn1InRowNum == 1)//если это первая находка пары, то надо их обоих посчитать
                         diffOn1InRowNum++;
                     if (cardsListSorted[i - 1].CardValue - cardsListSorted[i].CardValue == 0)
                         countOfEq++;
                 }
                 else
                 {
-                    if (diffOn1InRowNum-countOfEq >= 5)
+                    if (diffOn1InRowNum - countOfEq >= 5)
                     {
                         indOfFirstStraight = i - diffOn1InRowNum;
                     }
@@ -341,7 +342,7 @@ namespace PokerGameLibrary.Classes
                 }
             }
             //если все карты на 1 отличаются и верхняя не сработала
-            if (diffOn1InRowNum - countOfEq >= 5 && indOfFirstStraight==-1)
+            if (diffOn1InRowNum - countOfEq >= 5 && indOfFirstStraight == -1)
             {
                 indOfFirstStraight = cardsListSorted.Count - diffOn1InRowNum;
             }
@@ -360,7 +361,7 @@ namespace PokerGameLibrary.Classes
                     if (cardsListSorted[i].CardSuit != (CardSuit)flushCardSuit)
                         count++;
                 }
-                if(diffOn1InRowNum-count<5)
+                if (diffOn1InRowNum - count < 5)
                     indOfFirstStraight = -1; //т.е отменяю стрит, т.к. масти флеша и стрита не совпадают, а флеш важнее стрита
 
 
@@ -409,34 +410,34 @@ namespace PokerGameLibrary.Classes
 
             if (cardsCountSorted[0] == 4)
             {
-                int sum = (priority / 100) * (int)cardsListSorted[ind].CardValue;
+                int sum = priority / 100 * (int)cardsListSorted[ind].CardValue;
                 if (ind == 0)
-                    sum += (priority / 1000) * (int)cardsListSorted[4].CardValue;
+                    sum += priority / 1000 * (int)cardsListSorted[4].CardValue;
                 else
-                    sum += (priority / 1000) * (int)cardsListSorted[0].CardValue;
+                    sum += priority / 1000 * (int)cardsListSorted[0].CardValue;
 
                 return 8 * priority + sum; //four of a kind (каре)
             }
             else if (cardsCountSorted[0] == 3 && cardsCountSorted[1] >= 2)
             {
-                    int sum = (priority / 100) * (int)cardsListSorted[ind].CardValue;
-                    for (int i = 1; i < cardsListSorted.Count; i++)
+                int sum = priority / 100 * (int)cardsListSorted[ind].CardValue;
+                for (int i = 1; i < cardsListSorted.Count; i++)
+                {
+                    if (i - ind > 2 && cardsListSorted[i].CardValue == cardsListSorted[i - 1].CardValue)
                     {
-                        if (i - ind > 2 && cardsListSorted[i].CardValue == cardsListSorted[i - 1].CardValue)
-                        {
-                            sum += (priority / 1000) * (int)cardsListSorted[i].CardValue;
-                            break;
-                        }
+                        sum += priority / 1000 * (int)cardsListSorted[i].CardValue;
+                        break;
                     }
+                }
 
-                    return 7 * priority + sum; //full house
+                return 7 * priority + sum; //full house
             }
 
             //вставочка с ещё более раннего этапа
             if (flushCardSuit != -1)
             {
                 int sum = 0;
-                int n = (priority / 100);
+                int n = priority / 100;
                 for (int i = 0; n != 0; i++)
                 {
                     if ((int)cardsListSorted[i].CardSuit == flushCardSuit)
@@ -454,20 +455,20 @@ namespace PokerGameLibrary.Classes
 
             if (cardsCountSorted[0] == 3)//но тут уже проверено, что не фул-хаус
             {
-                int sum = (priority / 100) * (int)cardsListSorted[ind].CardValue;
+                int sum = priority / 100 * (int)cardsListSorted[ind].CardValue;
 
                 if (ind == 0)
                 {
-                    sum += (priority / 1000) * (int)cardsListSorted[3].CardValue;
-                    sum += (priority / 1000) * (int)cardsListSorted[4].CardValue;
+                    sum += priority / 1000 * (int)cardsListSorted[3].CardValue;
+                    sum += priority / 1000 * (int)cardsListSorted[4].CardValue;
                 }
                 else
                 {
-                    sum += (priority / 1000) * (int)cardsListSorted[0].CardValue;
+                    sum += priority / 1000 * (int)cardsListSorted[0].CardValue;
                     if (ind == 1)
-                        sum += (priority / 1000) * (int)cardsListSorted[4].CardValue;
+                        sum += priority / 1000 * (int)cardsListSorted[4].CardValue;
                     else
-                        sum += (priority / 1000) * (int)cardsListSorted[1].CardValue;
+                        sum += priority / 1000 * (int)cardsListSorted[1].CardValue;
                 }
 
                 return 4 * priority + sum; //three of a kind (сет)
@@ -483,11 +484,11 @@ namespace PokerGameLibrary.Classes
                     {
                         if (cardsListSorted[i].CardValue == cardsListSorted[i - 1].CardValue)
                         {
-                            sum += (priority / 100) * (int)cardsListSorted[i].CardValue;
+                            sum += priority / 100 * (int)cardsListSorted[i].CardValue;
                             n--;
                         }
                         else if (noHighCard)//учёт старшей карты
-                            sum += (priority / 1000) * (int)cardsListSorted[i].CardValue;
+                            sum += priority / 1000 * (int)cardsListSorted[i].CardValue;
                     }
 
                     return 3 * priority + sum; //two pair
@@ -495,12 +496,12 @@ namespace PokerGameLibrary.Classes
                 else
                 {
                     int sum = 0, highCardCount = 3;
-                    int multip = (priority / 100);
+                    int multip = priority / 100;
                     for (int i = 1; i < cardsListSorted.Count; i++)
                     {
                         if (cardsListSorted[i].CardValue == cardsListSorted[i - 1].CardValue)
                         {
-                            sum += (priority / 100) * (int)cardsListSorted[i].CardValue;
+                            sum += priority / 100 * (int)cardsListSorted[i].CardValue;
                         }
                         else if (highCardCount-- > 0)//учёт старшей карты
                         {
@@ -516,7 +517,7 @@ namespace PokerGameLibrary.Classes
             }
             else
             {
-                int sum = 0, multip = (priority / 100);
+                int sum = 0, multip = priority / 100;
                 for (int i = 0; i < 5; i++)
                 {
                     sum += multip * (int)cardsListSorted[i].CardValue;

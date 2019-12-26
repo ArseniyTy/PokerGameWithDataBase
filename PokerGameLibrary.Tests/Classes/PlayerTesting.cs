@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using PokerGameLibrary.Cards;
+using PokerGameLibrary.Cards.Enums;
 using PokerGameLibrary.Classes;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Interfaces;
+using PokerGameLibrary.GamePlayer;
+using PokerGameLibrary.GamePlayer.Enums;
 
 namespace PokerGameLibrary.Tests.Classes
 {

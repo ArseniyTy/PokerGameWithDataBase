@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Classes.Bots;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Classes;
 using DatabaseService;
+using PokerGameLibrary.Bots;
+using PokerGameLibrary.Cards.Enums;
+using PokerGameLibrary.Cards;
+using PokerGameLibrary.GamePlayer.Enums;
+using PokerGameLibrary.GamePlayer;
 
 namespace PokerGameConsole
 {

@@ -1,4 +1,4 @@
-﻿namespace PokerGameLibrary.Enums
+﻿namespace PokerGameLibrary.GamePlayer.Enums
 {
     /// <summary>
     /// Role of the player in the game(None,D,SB,BB)

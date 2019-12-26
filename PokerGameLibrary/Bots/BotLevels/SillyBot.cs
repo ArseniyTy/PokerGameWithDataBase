@@ -1,11 +1,10 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Classes;
+using PokerGameLibrary.GamePlayer.Enums;
+using PokerGameLibrary.GamePlayer;
 
-namespace PokerGameLibrary.Classes.Bots
+namespace PokerGameLibrary.Bots.BotLevels
 {
     /// <summary>
     /// Representes a very silly bot. 
@@ -35,7 +34,7 @@ namespace PokerGameLibrary.Classes.Bots
                     }
                 case PlayerStatus.Waiting:
                     {
-                        if(Player.MoneyToCall>0)
+                        if (Player.MoneyToCall > 0)
                         {
                             bot.Call();
                         }

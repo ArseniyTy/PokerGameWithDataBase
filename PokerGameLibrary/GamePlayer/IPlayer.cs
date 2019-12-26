@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Classes;
+using PokerGameLibrary.GamePlayer.Enums;
 
-namespace PokerGameLibrary.Interfaces
+namespace PokerGameLibrary.GamePlayer
 {
     /// <summary>
     /// Representes general aspects of the player.

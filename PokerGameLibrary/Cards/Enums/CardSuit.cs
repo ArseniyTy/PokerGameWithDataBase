@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokerGameLibrary.Enums
+namespace PokerGameLibrary.Cards.Enums
 {
     /// <summary>
     /// Card suit (Clubs,Diamonds,Hearts,Spades)

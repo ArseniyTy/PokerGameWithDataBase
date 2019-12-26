@@ -1,6 +1,6 @@
-﻿using PokerGameLibrary.Enums;
+﻿using PokerGameLibrary.Cards.Enums;
 
-namespace PokerGameLibrary.Interfaces
+namespace PokerGameLibrary.Cards
 {
     /// <summary>
     /// Representes 2 main compounds of the game card: value and suit.

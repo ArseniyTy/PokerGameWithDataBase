@@ -1,8 +1,8 @@
 ﻿using System;
-using PokerGameLibrary.Classes.Bots;
-using PokerGameLibrary.Classes;
-using PokerGameLibrary.Interfaces;
 using DatabaseService;
+using PokerGameLibrary.Bots;
+using PokerGameLibrary.Bots.BotLevels;
+using PokerGameLibrary.GamePlayer;
 
 //arsen
 //asdfasdf

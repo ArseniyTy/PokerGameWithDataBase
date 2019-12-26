@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Classes;
-using PokerGameLibrary.Classes.Bots;
+using PokerGameLibrary.GamePlayer;
 
-namespace PokerGameLibrary.Interfaces
+namespace PokerGameLibrary.Bots
 {
     /// <summary>
     /// Representes a bot level of thinking in the game. 

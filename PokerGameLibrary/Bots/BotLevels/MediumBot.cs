@@ -1,11 +1,9 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Classes;
+using PokerGameLibrary.GamePlayer;
 
-namespace PokerGameLibrary.Classes.Bots
+namespace PokerGameLibrary.Bots.BotLevels
 {
     /// <summary>
     /// Representes a medium bot. 

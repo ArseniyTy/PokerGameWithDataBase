@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using PokerGameLibrary.Interfaces;
-using PokerGameLibrary.Classes;
-using PokerGameLibrary.Enums;
+using PokerGameLibrary.Cards.Enums;
+using PokerGameLibrary.Cards;
+using PokerGameLibrary.GamePlayer.Enums;
+using PokerGameLibrary.GamePlayer;
 
 // TODO:
 // В перспективе: сделать возможность играть с теми же(у кого меньше мин ставки, тот вылетает
 // , update gamesession, потом этот метод впихнуть в конструктор как раз)
 
-namespace PokerGameLibrary.Classes
+namespace PokerGameLibrary
 {
     /// <summary>
     /// A base abstract class for all the sessions. Has some base logic.
@@ -28,13 +29,13 @@ namespace PokerGameLibrary.Classes
         private int _time;
         public int Time
         {
-            get 
+            get
             {
                 TimeUpdate();
                 return _time;
             }
         }
-        
+
 
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace PokerGameLibrary.Classes
             get { return _players; }
             set
             {
-                if (value==null)
+                if (value == null)
                     throw new Exception("Count of players cannot be equal to null!");
                 if (value.Count < 3)
                     throw new Exception("Count of players must be not less than 3!");
@@ -156,7 +157,7 @@ namespace PokerGameLibrary.Classes
             {
                 if (value <= 0)
                     throw new Exception("Minimum bet must be more then 0!");
-                if(value%10!=0)
+                if (value % 10 != 0)
                     throw new Exception("Minimum bet must divide on 10!");
                 else
                     _minBet = value;
@@ -177,7 +178,7 @@ namespace PokerGameLibrary.Classes
             _beginningTime = DateTime.UtcNow;
             Bank = 0;
             MinBet = minBet;
-            if(moneyOfThePlayers!=null)
+            if (moneyOfThePlayers != null)
             {
                 foreach (var sum in moneyOfThePlayers)
                 {
@@ -212,7 +213,7 @@ namespace PokerGameLibrary.Classes
                 randInd = 0;
             Players[randInd].Role = PlayerRole.BigBlind;
             Players[randInd++].Bet(MinBet * 2);
-            
+
 
 
             //раздаёт 2 карты каждому +
@@ -255,7 +256,7 @@ namespace PokerGameLibrary.Classes
                 Players[i].CurrBetMoney = 0;
             }
             Player.MoneyToCall = 0;
-        }     
+        }
         /// <summary>
         /// The main method. Plays one round.
         /// </summary>
@@ -342,10 +343,10 @@ namespace PokerGameLibrary.Classes
                     return 1;
                 else return 0;//чтоб дораздали карт
             }
-            if (countOfСheck >0)
+            if (countOfСheck > 0)
             {
                 //если все из оставшихся check, то раздача
-                if (countOfСheck == Players.Count-countOfUnable)
+                if (countOfСheck == Players.Count - countOfUnable)
                 {
                     //если это последний раунд, то итог
                     if (Players[0].CardList.Count == 7)
@@ -355,14 +356,14 @@ namespace PokerGameLibrary.Classes
                 //значит есть те, кто уже поставил, а кто-то всё ещё check=>торги
                 return -1;
             }
-            
-            
+
+
             int i = 0;
             while (i < Players.Count)
             {
                 if (Players[i].Status == PlayerStatus.InAuction || Players[i].Status == PlayerStatus.AllIn)
                 {
-                    if(Players[i].CurrBetMoney < Player.MoneyToCall)
+                    if (Players[i].CurrBetMoney < Player.MoneyToCall)
                     {
                         if (Players[i].Status != PlayerStatus.AllIn)
                             return -1;
@@ -438,7 +439,7 @@ namespace PokerGameLibrary.Classes
             }
             _deck.RemoveAt(randCard1);
 
-            if (Players[0].CardList.Count==3) //т.е. 2 свои и + одна сгенерированная
+            if (Players[0].CardList.Count == 3) //т.е. 2 свои и + одна сгенерированная
             {
                 int randCard2 = random.Next(0, _deck.Count);
                 tableCards.Add(_deck[randCard2]);
@@ -450,11 +451,11 @@ namespace PokerGameLibrary.Classes
                 foreach (var player in Players)
                 {
                     player.CardList.Add(tableCards[tableCards.Count - 2] as Card);
-                    player.CardList.Add(tableCards[tableCards.Count-1] as Card);
-                }  
+                    player.CardList.Add(tableCards[tableCards.Count - 1] as Card);
+                }
             }
 
-            if (tableCards.Count>5)
+            if (tableCards.Count > 5)
                 throw new Exception("Player have more than 7 cards!");
 
         }

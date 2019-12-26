@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using PokerGameLibrary.Classes;
 using DatabaseService.Entities;
 using DatabaseService.Entities.Models;
-
+using PokerGameLibrary;
+using PokerGameLibrary.GamePlayer;
 
 namespace DatabaseService
 {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Enums;
-using PokerGameLibrary.Interfaces;
+using PokerGameLibrary.Cards.Enums;
 
-namespace PokerGameLibrary.Classes
+namespace PokerGameLibrary.Cards
 {
     /// <summary>
     /// Representes a game card.
@@ -41,7 +40,7 @@ namespace PokerGameLibrary.Classes
         /// <returns></returns>
         public int CompareTo(ICard other)
         {
-            if(other!=null)
+            if (other != null)
             {
                 if (CardValue > other.CardValue)
                     return -1;

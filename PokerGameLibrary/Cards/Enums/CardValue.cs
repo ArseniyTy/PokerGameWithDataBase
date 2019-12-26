@@ -1,4 +1,4 @@
-﻿namespace PokerGameLibrary.Enums
+﻿namespace PokerGameLibrary.Cards.Enums
 {
     /// <summary>
     /// Card value (from 2, 3, 4 ... Q, K, A)

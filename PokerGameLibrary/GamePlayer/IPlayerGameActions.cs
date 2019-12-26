@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Classes;
 
-namespace PokerGameLibrary.Interfaces
+namespace PokerGameLibrary.GamePlayer
 {
     /// <summary>
     /// Representes all the methods connected with game actions and decisions

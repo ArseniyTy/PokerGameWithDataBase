@@ -1,4 +1,4 @@
-﻿namespace PokerGameLibrary.Enums
+﻿namespace PokerGameLibrary.GamePlayer.Enums
 {
     /// <summary>
     /// Status of the player in the game.

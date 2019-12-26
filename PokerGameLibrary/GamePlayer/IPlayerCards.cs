@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using PokerGameLibrary.Classes;
+using PokerGameLibrary.Cards;
 
-namespace PokerGameLibrary.Interfaces
+namespace PokerGameLibrary.GamePlayer
 {
     /// <summary>
     /// Representes all the aspects connected with player game cards.
