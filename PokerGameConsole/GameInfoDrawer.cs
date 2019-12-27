@@ -160,9 +160,14 @@ namespace PokerGameConsole
             {
                 //каждого игрока + справа их выигрышная инфа
                 Console.WriteLine("Players:");
+                int plNum = 0;
                 for (int i = 0; i < session.Players.Count; i++)
                 {
-                    string message = String.Format("Player №{0}", i + 1);
+                    string message;
+                    if (session.Players[i].Name != null)
+                        message = session.Players[i].Name;
+                    else
+                        message = String.Format("Player №{0}", ++plNum);
                     if (session.Players[i].Role != PlayerRole.None)
                     {
                         if (session.Players[i].Role == PlayerRole.Dealer)
@@ -212,9 +217,14 @@ namespace PokerGameConsole
 
                 //каждого игрока + справа их ставка/статус
                 Console.WriteLine("Players:\t     Bank: {0}", session.Bank);
+                int plNum = 0;
                 for (int i = 0; i < session.Players.Count; i++)
                 {
-                    string message = String.Format("Player №{0}", i + 1);
+                    string message;
+                    if (session.Players[i].Name != null)
+                        message = session.Players[i].Name;
+                    else
+                        message = String.Format("Player №{0}", ++plNum);
                     if (session.Players[i].Role != PlayerRole.None)
                     {
                         if (session.Players[i].Role == PlayerRole.Dealer)

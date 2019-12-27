@@ -23,10 +23,10 @@ namespace PokerGameLibrary
             if (!Finished) //if not finished then updating _time
             {
                 DateTime currTime = DateTime.UtcNow;
-                _time = (int)currTime.Subtract(_beginningTime).TotalMinutes;
+                _time = (int)currTime.Subtract(_beginningTime).TotalSeconds;
             }
         }
-        private int _time;
+        private int _time=0;
         public int Time
         {
             get
@@ -273,8 +273,8 @@ namespace PokerGameLibrary
                         //PlayerBanksUpdate();
                         RoundAfterUpdate();
                         FinalResult();
-                        Finished = true;
                         TimeUpdate();
+                        Finished = true;
                         return false;
                     }
                 case 0://разадача карт

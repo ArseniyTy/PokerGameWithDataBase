@@ -5,11 +5,22 @@ using DatabaseService.Entities;
 using DatabaseService.Entities.Models;
 using PokerGameLibrary;
 using PokerGameLibrary.GamePlayer;
+using PokerGameLibrary.GamePlayer.Enums;
 
 namespace DatabaseService
 {
     public static class GameStatistics
     {
+        public static void PlayerDatabaseUpdater(Player playerToUpdate)
+        {
+            var pokerGameContext = new PokerGameContext();
+            var dbPlayer = pokerGameContext.Players
+                .FirstOrDefault(p => p.Name == playerToUpdate.Name);
+            
+            dbPlayer.Money = playerToUpdate.Money;
+            pokerGameContext.SaveChanges();
+        }
+
         public static void PlayerGameStatAdd(GameSession gameSession)
         {
             //запись в бд
@@ -21,9 +32,14 @@ namespace DatabaseService
 
             var gameModel = new GameSessionModel();
             gameModel.Player = dbPlayer;    // ref nav property
-            gameModel.Profit = currPlayer.CurrBetMoney - dbPlayer.Money;
+            gameModel.Profit = currPlayer.Money - dbPlayer.Money;
             gameModel.WinCondintion = gameModel.Profit > 0;
-            gameModel.GameStatus = currPlayer.Status.ToString();
+            //если waiting, то значит победил в аукционе (потом просто обновление было)
+            if(currPlayer.Status==PlayerStatus.Waiting)
+                gameModel.Status = PlayerStatus.InAuction.ToString();
+            else
+                gameModel.Status = currPlayer.Status.ToString();
+
             gameModel.NumOfPlayers = gameSession.Players.Count;
             gameModel.GameTime = gameSession.Time;
             gameModel.Bank = gameSession.Players.Sum(p=>p.CurrBetMoney); //сумма всех текущих ставок, т.к. в конце игры текущая ставка - твой выигрыш 
