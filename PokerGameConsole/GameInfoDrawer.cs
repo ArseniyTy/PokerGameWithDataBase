@@ -132,7 +132,10 @@ namespace PokerGameConsole
             return cardToStr;
         }
 
-
+        /// <summary>
+        /// Prints player's game history statistics to the console. 
+        /// </summary>
+        /// <param name="player">Player we want to get the statistics</param>
         public static void PlayerGameStatViewConsole(Player player)
         {
             foreach (var p in GameStatistics.PlayerGameStatView(player))
@@ -156,6 +159,7 @@ namespace PokerGameConsole
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("------------------------------------------------------------------------------------");
 
+
             if(session.Finished)
             {
                 //каждого игрока + справа их выигрышная инфа
@@ -169,14 +173,9 @@ namespace PokerGameConsole
                     else
                         message = String.Format("Player №{0}", ++plNum);
                     if (session.Players[i].Role != PlayerRole.None)
-                    {
-                        if (session.Players[i].Role == PlayerRole.Dealer)
-                            message = String.Format("{0} ({1})     \t", message, session.Players[i].Role);
-                        else
-                            message = String.Format("{0} ({1})     ", message, session.Players[i].Role);
-                    }
-                    else
-                        message += "\t\t";
+                        message = String.Format("{0} ({1})", message, session.Players[i].Role);
+                    for (int k = message.Length; k < 30; k++) //выравнивание
+                        message += " ";
                     Console.Write(message);
 
                     //Далее всё через write(), т.к. по другому цвет карт не установишь
@@ -216,7 +215,7 @@ namespace PokerGameConsole
 
 
                 //каждого игрока + справа их ставка/статус
-                Console.WriteLine("Players:\t     Bank: {0}", session.Bank);
+                Console.WriteLine("Players:\t\t     Bank: {0}", session.Bank);
                 int plNum = 0;
                 for (int i = 0; i < session.Players.Count; i++)
                 {
@@ -225,15 +224,12 @@ namespace PokerGameConsole
                         message = session.Players[i].Name;
                     else
                         message = String.Format("Player №{0}", ++plNum);
+
                     if (session.Players[i].Role != PlayerRole.None)
-                    {
-                        if (session.Players[i].Role == PlayerRole.Dealer)
-                            message = String.Format("{0} ({1})     \t", message, session.Players[i].Role);
-                        else
-                            message = String.Format("{0} ({1})     ", message, session.Players[i].Role);
-                    }
-                    else
-                        message += "\t\t";
+                        message = String.Format("{0} ({1})", message, session.Players[i].Role);
+                    for (int k = message.Length; k < 30; k++) //выравнивание
+                        message += " ";
+                    
                     message = String.Format("{0}\tMoney: {1}\t", message, session.Players[i].Money);
                     if (session.Players[i].Status != PlayerStatus.InAuction)
                     {

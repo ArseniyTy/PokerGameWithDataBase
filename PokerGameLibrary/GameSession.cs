@@ -7,7 +7,7 @@ using PokerGameLibrary.GamePlayer;
 
 // TODO:
 // В перспективе: сделать возможность играть с теми же(у кого меньше мин ставки, тот вылетает
-// , update gamesession, потом этот метод впихнуть в конструктор как раз)
+// , update gamesession,)
 
 namespace PokerGameLibrary
 {
@@ -27,6 +27,9 @@ namespace PokerGameLibrary
             }
         }
         private int _time=0;
+        /// <summary>
+        /// Returns time that has passed since the beginning of the session.
+        /// </summary>
         public int Time
         {
             get
@@ -175,8 +178,8 @@ namespace PokerGameLibrary
         public GameSession(int minBet, params int[] moneyOfThePlayers)
         {
             //инициализация
-            _beginningTime = DateTime.UtcNow;
             Bank = 0;
+            Finished = true;
             MinBet = minBet;
             if (moneyOfThePlayers != null)
             {
@@ -186,9 +189,24 @@ namespace PokerGameLibrary
                     //PlayerBanks.Add(0);
                 }
             }
-            Players = Players; //чтобы сработала логика внутри set
+            GameSessionUpdate();
+        }
+
+        private void GameSessionUpdate()
+        {
+            if (!Finished) //нельзя обновить незаконченную сессию
+                return;
+
+
+            //инициализация
+            _beginningTime = DateTime.UtcNow;
+            MinBet = MinBet; //чтобы сработала внутри логика
+            Players = Players;
+
 
             //Generation of the decks
+            _deck = new List<Card>();
+            tableCards = new List<Card>();
             for (int i = 2; i < 15; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -196,7 +214,6 @@ namespace PokerGameLibrary
                     _deck.Add(new Card((CardSuit)j, (CardValue)i));
                 }
             }
-
 
             //присваивает роли + 
             //делает blind-ы
@@ -229,13 +246,11 @@ namespace PokerGameLibrary
                 _deck.RemoveAt(randInd);
             }
 
-            //пока что в игре все игроки
+            //т.к. пока что в игре все игроки
             InGamePlayersUpdater();
+
+            Finished = false;
         }
-        /// <summary>
-        /// Base constructor
-        /// </summary>
-        public GameSession() : this(0, null) { }
 
 
 

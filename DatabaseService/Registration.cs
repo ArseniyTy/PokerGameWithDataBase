@@ -5,20 +5,44 @@ using DatabaseService.Entities.Models;
 
 namespace DatabaseService
 {
+    /// <summary>
+    /// Static class that contains basic registration/authorization stage methods.
+    /// <para>Works with database.</para>
+    /// </summary>
     public static class Registration
     {
-        //нельзя одинаковые имена + это же у нас ключ => как будет реагировать бд
+        /// <summary>
+        /// PUTS the player with specified characteristics in database.
+        /// </summary>
+        /// <param name="name">Player name</param>
+        /// <param name="money">Player money</param>
+        /// <param name="password">Player password</param>
         public static void SignUp(string name, int money, string password)
         {
-            //запись в бд
             var pokerGameContext = new PokerGameContext();
             var player = new PlayerModel { Name = name, Money = money, Password = password };
+
+            ////нельзя одинаковые имена - уже отслеживается, т.к. это KEY
+            //if (pokerGameContext.Players
+            //    .FirstOrDefault(p => p.Name == player.Name) != null)
+            //{
+            //    throw new Exception("The player with this name is already signed-up!");
+            //}
             pokerGameContext.Players.Add(player);
             pokerGameContext.SaveChanges();
         }
+
+
+
+        /// <summary>
+        /// GETS the player with specified characteristics in database.
+        /// </summary>
+        /// <param name="name">Player name</param>
+        /// <param name="password">Player password</param>
+        /// <param name="money">Player money</param>
+        /// <returns></returns>
         public static bool SignIn(string name, string password, out int money)
         {
-            //чтение из бд
             var pokerGameContext = new PokerGameContext();
             var player = pokerGameContext.Players
                 .FirstOrDefault(p => p.Name == name && p.Password==password);
@@ -27,14 +51,6 @@ namespace DatabaseService
                 money = player.Money;
                 return true;
             }
-            //foreach (var player in pokerGameContext.Players)
-            //{
-            //    if(player.Name==name && player.Password==password)
-            //    {
-            //        money = player.Money;
-            //        return true;
-            //    }
-            //}
             money = -1;
             return false;
         }

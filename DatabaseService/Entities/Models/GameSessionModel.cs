@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace DatabaseService.Entities.Models
 {
+    /// <summary>
+    /// Model that describes game statistic of the Player.
+    /// <para>One-to-many link with PlayerModel (dependent entity)</para>
+    /// </summary>
     public class GameSessionModel
     {
         public int Id { get; set; }

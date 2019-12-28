@@ -6,12 +6,23 @@ using DatabaseService.Entities.Models;
 
 namespace DatabaseService.Entities
 {
+    /// <summary>
+    /// Poker game database context
+    /// </summary>
     public class PokerGameContext : DbContext
     {
+        /// <summary>
+        /// Table of players
+        /// </summary>
         public DbSet<PlayerModel> Players { get; set; }
+        /// <summary>
+        /// Table of game statistic history of the Player
+        /// </summary>
         public DbSet<GameSessionModel> PlayerGames { get; set; }
 
-
+        /// <summary>
+        /// Creates(connects to) the context.
+        /// </summary>
         public PokerGameContext()
         {
             Database.EnsureCreated();

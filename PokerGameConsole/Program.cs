@@ -24,7 +24,7 @@ namespace PokerGameConsole
         }
         public static bool RegistrationUI(ref Player myPlayer)
         {
-            var registrationInstructions = "1)Press L to log in\n2)Press S to sign in\n3)Press ESC to quit the game";
+            var registrationInstructions = "1)Press L to sign up (first time registration)\n2)Press S to sign in\n3)Press ESC to quit the game";
 
             Console.Clear();
             Console.WriteLine(registrationInstructions);
@@ -37,7 +37,18 @@ namespace PokerGameConsole
                         Console.WriteLine("Enter your name:");
                         string name = Console.ReadLine();
                         Console.WriteLine("Enter amount of money:");
-                        int money = int.Parse(Console.ReadLine());
+                        int money = 0;
+                        try //формат данных
+                        {
+                            money = int.Parse(Console.ReadLine());
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Console.WriteLine("Registration failed!");
+                            Console.ReadKey();
+                            break;
+                        }
                         Console.WriteLine("Enter password:");
                         string password = Console.ReadLine();
                         Console.WriteLine("Repeat your password:");
@@ -46,15 +57,24 @@ namespace PokerGameConsole
                         if (password != passwordRepeat)
                         {
                             Console.WriteLine("Your repeted password doesn't match password");
+                            Console.WriteLine("Registration failed!");
                             Console.ReadKey();
+                            break;
                         }
-                        else
+
+                        try
                         {
                             Registration.SignUp(name, money, password);
-                            Console.WriteLine("Your registration is completed!");
-                            Console.WriteLine("Sign in now");
-                            Console.ReadKey();
                         }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Console.WriteLine("Registration failed!");
+                            Console.ReadKey();
+                            break;
+                        }
+                        Console.WriteLine("Your registration is completed!");
+                        Console.ReadKey();
                         break;
                     }
                 case ConsoleKey.S:
@@ -142,11 +162,23 @@ namespace PokerGameConsole
                     }
                 case ConsoleKey.Enter:
                     {
-                        Console.WriteLine("How much people you want to play with(>1 & <9)?");
-                        int peopCount = int.Parse(Console.ReadLine());
-                        Console.WriteLine("What is the minimum bet in your game(divided on 10)?");
-                        int minBet = int.Parse(Console.ReadLine());
-                        Console.Clear();
+                        int peopCount = 0, minBet = 0;
+                        try //формат неправильный
+                        {
+                            Console.WriteLine("How much people you want to play with(>1 & <9)?");
+                            peopCount = int.Parse(Console.ReadLine());
+                            Console.WriteLine("What is the minimum bet in your game(divided on 10)?");
+                            minBet = int.Parse(Console.ReadLine());
+                            if (minBet <= 0)
+                                throw new Exception("Minimum bet should be more than zero!");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Console.ReadKey();
+                            Console.Clear();
+                            break;
+                        }
 
                         var plMoney = new int[peopCount + 1];
                         plMoney[0] = myPlayer.Money;
@@ -157,7 +189,7 @@ namespace PokerGameConsole
                         }
 
                         GameBotSession session;
-                        try
+                        try //не по правилам заданы minBet и money
                         {
                             session = new GameBotSession(minBet, plMoney);
                         }
@@ -168,12 +200,16 @@ namespace PokerGameConsole
                             Console.Clear();
                             break;
                         }
+                        Console.Clear();
+
+
+
+
 
                         session.SetBotLevel(botLvl);
                         session.myPlayer.Name = myPlayer.Name; //даём ему имя
                         myPlayer = session.myPlayer; //теперь в переменной уже ссылка на плеера из сессии
                         GameInfoDrawer.DrawInfo(session);
-
 
 
                         while (session.PlayRound())
@@ -186,7 +222,7 @@ namespace PokerGameConsole
                             Console.Clear();
                             GameInfoDrawer.DrawInfo(session);
                         }
-                        GameStatistics.PlayerGameStatAdd(session); //запись истории игр в бд
+                        GameStatistics.PlayerGameStatAdd(session, myPlayer); //запись истории игр в бд
                         GameStatistics.PlayerDatabaseUpdater(myPlayer); //обновляет деньги плееру
                         System.Threading.Thread.Sleep(2000);
                         Console.Clear();

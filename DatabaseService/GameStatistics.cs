@@ -9,8 +9,16 @@ using PokerGameLibrary.GamePlayer.Enums;
 
 namespace DatabaseService
 {
+    /// <summary>
+    /// Static class that contains basic methods to work with game statistics data.
+    /// <para>Works with database.</para>
+    /// </summary>
     public static class GameStatistics
     {
+        /// <summary>
+        /// Updates the respectively player in database
+        /// </summary>
+        /// <param name="playerToUpdate">Player to update</param>
         public static void PlayerDatabaseUpdater(Player playerToUpdate)
         {
             var pokerGameContext = new PokerGameContext();
@@ -21,11 +29,16 @@ namespace DatabaseService
             pokerGameContext.SaveChanges();
         }
 
-        public static void PlayerGameStatAdd(GameSession gameSession)
+
+        /// <summary>
+        /// PUTS player game statistic in database.
+        /// </summary>
+        /// <param name="gameSession">Player's current game session</param>
+        /// <param name="player">Player, which game statistic we want to update</param>
+        public static void PlayerGameStatAdd(GameSession gameSession, Player player)
         {
-            //запись в бд
             var pokerGameContext = new PokerGameContext();
-            var currPlayer = gameSession.Players[0];
+            var currPlayer = player;
             var dbPlayer = pokerGameContext.Players
                 .FirstOrDefault(p => p.Name == currPlayer.Name);
             
@@ -49,9 +62,13 @@ namespace DatabaseService
             pokerGameContext.SaveChanges();
         }
 
+        /// <summary>
+        /// GETS player game statistic from database.
+        /// </summary>
+        /// <param name="player">Player, which game statistic we want to view</param>
+        /// <returns>List of player games</returns>
         public static List<GameSessionModel> PlayerGameStatView(Player player)
         {
-            //чтение всех игр из бд (ToString() перегружен, если что)
             var pokerGameContext = new PokerGameContext();
             var dbPlayer = pokerGameContext.Players
                 .FirstOrDefault(p => p.Name == player.Name);

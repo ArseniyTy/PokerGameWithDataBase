@@ -14,6 +14,9 @@ namespace PokerGameLibrary.GamePlayer
     /// </summary>   
     public class Player : IPlayer, IPlayerCards, IPlayerGameActions, IComparable<Player>
     {
+        /// <summary>
+        /// Storages the name of the player(user/bot).
+        /// </summary>
         public string Name { get; set; }
 
         /// <summary>
