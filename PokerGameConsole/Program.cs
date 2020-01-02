@@ -4,8 +4,9 @@ using PokerGameLibrary.Bots;
 using PokerGameLibrary.Bots.BotLevels;
 using PokerGameLibrary.GamePlayer;
 
-//arsen
-//asdfasdf
+//DatabaseConection:
+//  ArsArs
+//  qwert
 
 namespace PokerGameConsole
 {
@@ -64,6 +65,8 @@ namespace PokerGameConsole
 
                         try
                         {
+                            if (password.Length < 5 || password.Length > 100)
+                                throw new Exception("Password lenght should be [5;100]");
                             Registration.SignUp(name, money, password);
                         }
                         catch (Exception ex)
@@ -95,7 +98,7 @@ namespace PokerGameConsole
                         }
                         else
                         {
-                            Console.WriteLine("There is no such a user!");
+                            Console.WriteLine("Name or password is incorrect!");
                             Console.ReadKey();
                         }
                         break;

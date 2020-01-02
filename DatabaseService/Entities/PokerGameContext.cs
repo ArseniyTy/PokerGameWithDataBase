@@ -25,6 +25,7 @@ namespace DatabaseService.Entities
         /// </summary>
         public PokerGameContext()
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

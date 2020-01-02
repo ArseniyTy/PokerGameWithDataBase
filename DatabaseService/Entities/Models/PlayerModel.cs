@@ -22,18 +22,9 @@ namespace DatabaseService.Entities.Models
             }
         }
 
-        private string _password;
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                if (value.Length < 5 || value.Length > 100)
-                    throw new Exception("Password lenght should be [5;100]");
-                _password = value;
-            }
-        }
-        
+        public string PasswordHash { get; set; }
+        public string PasswordSalt { get; set; }
+
 
         private int _money;
         public int Money

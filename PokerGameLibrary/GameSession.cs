@@ -189,6 +189,11 @@ namespace PokerGameLibrary
                     //PlayerBanks.Add(0);
                 }
             }
+            //Устанавливает минимальную ставку каждому игроку
+            foreach (var p in Players)
+            {
+                p.MinBet = MinBet;
+            }
             GameSessionUpdate();
         }
 

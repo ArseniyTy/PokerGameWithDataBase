@@ -53,6 +53,11 @@ namespace PokerGameLibrary.GamePlayer
         }
 
         /// <summary>
+        /// Storages current session minimum bet
+        /// </summary>
+        public int MinBet { get; set; }
+
+        /// <summary>
         /// Storages player current bet. It equals to null, if player hasn't bet yet.
         /// </summary>
         /// <exception cref="Exception">Throws when the player has negative amount of betted money.</exception>
@@ -146,6 +151,8 @@ namespace PokerGameLibrary.GamePlayer
         {
             if (!_possibleGameActionsMethods.Contains("Bet") && MoneyToCall != 0)
                 throw new Exception("You cannot use this method in current game situation!");
+            if(money < MinBet)
+                throw new Exception("You cannot bet less than a minimum bet!");
 
             Status = PlayerStatus.InAuction;
             int delta = money - CurrBetMoney;

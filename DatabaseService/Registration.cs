@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DatabaseService.DatabaseSecurity;
 using DatabaseService.Entities;
 using DatabaseService.Entities.Models;
 
@@ -20,9 +21,14 @@ namespace DatabaseService
         public static void SignUp(string name, int money, string password)
         {
             var pokerGameContext = new PokerGameContext();
-            var player = new PlayerModel { Name = name, Money = money, Password = password };
+            var player = new PlayerModel { Name = name, Money = money };
 
-            ////нельзя одинаковые имена - уже отслеживается, т.к. это KEY
+            IPasswordHasher passwordHasher = new CryptographyHelper();
+            string passwordSalt = null;
+            player.PasswordHash = passwordHasher.HashPassword(password, ref passwordSalt);
+            player.PasswordSalt = passwordSalt;
+
+            ///нельзя одинаковые имена - уже отслеживается, т.к. это KEY
             //if (pokerGameContext.Players
             //    .FirstOrDefault(p => p.Name == player.Name) != null)
             //{
@@ -44,12 +50,18 @@ namespace DatabaseService
         public static bool SignIn(string name, string password, out int money)
         {
             var pokerGameContext = new PokerGameContext();
+            IPasswordHasher passwordHasher = new CryptographyHelper();
             var player = pokerGameContext.Players
-                .FirstOrDefault(p => p.Name == name && p.Password==password);
+                .FirstOrDefault(p => p.Name == name);
+
             if(player != null)
             {
-                money = player.Money;
-                return true;
+                if(passwordHasher.
+                    PasswordVerification(password, player.PasswordHash, player.PasswordSalt))
+                {
+                    money = player.Money;
+                    return true;
+                }
             }
             money = -1;
             return false;
