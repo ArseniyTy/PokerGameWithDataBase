@@ -15,7 +15,7 @@ namespace DatabaseService.DatabaseSecurity
         /// <param name="password">Input password</param>
         /// <param name="salt">Reference on user salt</param>
         /// <returns>String representation of hash of the password</returns>
-        string HashPassword(string password, ref string salt);
+        (string, string) HashPassword(string password, string userSalt = null, string globalSalt = null);
 
 
         /// <summary>
@@ -25,6 +25,6 @@ namespace DatabaseService.DatabaseSecurity
         /// <param name="passwordHashToComp">User password hash</param>
         /// <param name="salt">User salt</param>
         /// <returns>True if verification was successfully completed and false otherwise</returns>
-        bool PasswordVerification(string password, string passwordHashToComp, string salt);
+        bool PasswordVerification(string password, string passwordHashToComp, string salt, string globalSalt);
     }
 }

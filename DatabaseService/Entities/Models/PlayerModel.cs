@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DatabaseService.DatabaseSecurity;
 
 namespace DatabaseService.Entities.Models
 {
@@ -8,8 +9,20 @@ namespace DatabaseService.Entities.Models
     /// Model that describes Player.
     /// <para>One-to-many link with PlayerModel (principle entity)</para>
     /// </summary>
-    public class PlayerModel
+    public class PlayerModel : IUserSecurePassword
     {
+        #region IUserSecurePassword
+        //глобальная соль (для шифрования)
+        public static readonly string globalSalt = "fiweji31941934joj9dfosljfolsjk324jh23j4hjhnwejhwjh8329584567838ajhef9823y4837fyweachujaehf23784f3y80ffhjashf";
+
+        public string PasswordSalt { get; set; }
+        public string PasswordHash { get; set; }
+        #endregion
+
+
+
+
+
         private string _name;
         public string Name
         {
@@ -21,9 +34,6 @@ namespace DatabaseService.Entities.Models
                 _name = value; 
             }
         }
-
-        public string PasswordHash { get; set; }
-        public string PasswordSalt { get; set; }
 
 
         private int _money;
@@ -37,6 +47,7 @@ namespace DatabaseService.Entities.Models
                 _money = value;
             }
         }
+
 
 
         //One-to-many in principle entity

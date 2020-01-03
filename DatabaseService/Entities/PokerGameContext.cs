@@ -37,7 +37,6 @@ namespace DatabaseService.Entities
         {
             modelBuilder.Entity<PlayerModel>().HasKey(p => p.Name);
 
-
             //One-to-many
             modelBuilder.Entity<PlayerModel>()
                 .HasMany(p => p.Games)

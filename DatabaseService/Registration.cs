@@ -24,9 +24,10 @@ namespace DatabaseService
             var player = new PlayerModel { Name = name, Money = money };
 
             IPasswordHasher passwordHasher = new CryptographyHelper();
-            string passwordSalt = null;
-            player.PasswordHash = passwordHasher.HashPassword(password, ref passwordSalt);
-            player.PasswordSalt = passwordSalt;
+            var hashAndSalt_tuple = passwordHasher.HashPassword(password, globalSalt: PlayerModel.globalSalt);
+            player.PasswordHash = hashAndSalt_tuple.Item1;
+            player.PasswordSalt = hashAndSalt_tuple.Item2;
+
 
             ///нельзя одинаковые имена - уже отслеживается, т.к. это KEY
             //if (pokerGameContext.Players
@@ -57,7 +58,7 @@ namespace DatabaseService
             if(player != null)
             {
                 if(passwordHasher.
-                    PasswordVerification(password, player.PasswordHash, player.PasswordSalt))
+                    PasswordVerification(password, player.PasswordHash, player.PasswordSalt, PlayerModel.globalSalt))
                 {
                     money = player.Money;
                     return true;
