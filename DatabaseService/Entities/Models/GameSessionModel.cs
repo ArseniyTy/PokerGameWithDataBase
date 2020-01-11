@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Numerics;
 
 namespace DatabaseService.Entities.Models
 {
@@ -13,14 +14,16 @@ namespace DatabaseService.Entities.Models
         public bool WinCondintion { get; set; }
         public int NumOfPlayers { get; set; }
         public int GameTime { get; set; }
-        public int Bank { get; set; }
-        public int Profit { get; set; }
+        public string BankStr { get; set; }
+        public BigInteger Bank { get; set; }
+        public string ProfitStr { get; set; }
+        public BigInteger Profit { get; set; }
         public string Status { get; set; }
 
         public override string ToString()
         {
             return String.Format("WinCondition: {0}, Status: {1}, NumOfPlayers: {2}, GameTime: {3} s, Bank: {4}, Profit {5}", 
-                WinCondintion, Status, NumOfPlayers, GameTime, Bank, Profit);
+                WinCondintion, Status, NumOfPlayers, GameTime, BankStr, ProfitStr);
         }
 
 

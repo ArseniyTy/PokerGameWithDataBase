@@ -3,6 +3,7 @@ using DatabaseService;
 using PokerGameLibrary.Bots;
 using PokerGameLibrary.Bots.BotLevels;
 using PokerGameLibrary.GamePlayer;
+using System.Numerics;
 
 //DatabaseConection:
 //  ArsArs
@@ -38,10 +39,12 @@ namespace PokerGameConsole
                         Console.WriteLine("Enter your name:");
                         string name = Console.ReadLine();
                         Console.WriteLine("Enter amount of money:");
-                        int money = 0;
+                        BigInteger money = 0;
                         try //формат данных
                         {
-                            money = int.Parse(Console.ReadLine());
+                            money = BigInteger.Parse(Console.ReadLine());
+                            if (money == 0)
+                                throw new Exception("Amount of money should be greater than 0!");
                         }
                         catch(Exception ex)
                         {
@@ -87,7 +90,7 @@ namespace PokerGameConsole
                         Console.WriteLine("Enter password:");
                         string password = Console.ReadLine();
 
-                        int money;
+                        BigInteger money;
                         if (Registration.SignIn(name, password, out money))
                         {
                             myPlayer = new Player(money);
@@ -165,15 +168,17 @@ namespace PokerGameConsole
                     }
                 case ConsoleKey.Enter:
                     {
-                        int peopCount = 0, minBet = 0;
+                        int peopCount = 0;
+                        BigInteger minBet = 0;
                         try //формат неправильный
                         {
                             Console.WriteLine("How much people you want to play with(>1 & <9)?");
                             peopCount = int.Parse(Console.ReadLine());
                             Console.WriteLine("What is the minimum bet in your game(divided on 10)?");
-                            minBet = int.Parse(Console.ReadLine());
+                            minBet = BigInteger.Parse(Console.ReadLine());
                             if (minBet <= 0)
                                 throw new Exception("Minimum bet should be more than zero!");
+                            int intMinBet = checked((int)minBet*200); //выдаём здесь ошибку, чтобы rnd.Next() норм работал
                         }
                         catch (Exception ex)
                         {
@@ -183,12 +188,12 @@ namespace PokerGameConsole
                             break;
                         }
 
-                        var plMoney = new int[peopCount + 1];
+                        var plMoney = new BigInteger[peopCount + 1];
                         plMoney[0] = myPlayer.Money;
                         Random rnd = new Random();
                         for (int i = 1; i < peopCount + 1; i++)
                         {
-                            plMoney[i] = rnd.Next(30 * minBet, 250 * minBet);
+                            plMoney[i] = rnd.Next((int) (50 * minBet), (int) (200 * minBet)); //безопасное приведение, т.к. сверху уже проверили
                         }
 
                         GameBotSession session;
@@ -263,13 +268,13 @@ namespace PokerGameConsole
                         }
                     case ConsoleKey.B:
                         {
-                            int bet = int.Parse(Console.ReadLine());
+                            BigInteger bet = BigInteger.Parse(Console.ReadLine());
                             myPlayer.Bet(bet);
                             break;
                         }
                     case ConsoleKey.R:
                         {
-                            int raise = int.Parse(Console.ReadLine());
+                            BigInteger raise = BigInteger.Parse(Console.ReadLine());
                             myPlayer.Raise(raise);
                             break;
                         }

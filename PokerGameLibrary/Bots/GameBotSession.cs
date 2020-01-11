@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using PokerGameLibrary.Bots.BotLevels;
 using PokerGameLibrary.GamePlayer.Enums;
 using PokerGameLibrary.GamePlayer;
+using System.Numerics;
 
 namespace PokerGameLibrary.Bots
 {
@@ -46,7 +46,7 @@ namespace PokerGameLibrary.Bots
         /// </summary>
         /// <param name="minBet">The minimum bet in the game.</param>
         /// <param name="moneyOfThePlayers">Integer array, which representes the amount of money they have</param>
-        public GameBotSession(int minBet, params int[] moneyOfThePlayers) : base(minBet, moneyOfThePlayers)
+        public GameBotSession(BigInteger minBet, params BigInteger[] moneyOfThePlayers) : base(minBet, moneyOfThePlayers)
         {
             myPlayer = Players[0];
             WaitingForMyPlayer = false;

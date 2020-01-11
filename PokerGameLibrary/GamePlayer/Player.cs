@@ -4,6 +4,7 @@ using System.Text;
 using PokerGameLibrary.Cards.Enums;
 using PokerGameLibrary.Cards;
 using PokerGameLibrary.GamePlayer.Enums;
+using System.Numerics;
 
 namespace PokerGameLibrary.GamePlayer
 {
@@ -23,8 +24,8 @@ namespace PokerGameLibrary.GamePlayer
         /// Storages money the player must call.
         /// </summary>
         /// <exception cref="Exception">Throws when the player has to call a negative amount of money.</exception>
-        private static int _moneyToCall = 0;
-        public static int MoneyToCall
+        private static BigInteger _moneyToCall = 0;
+        public static BigInteger MoneyToCall
         {
             get { return _moneyToCall; }
             set
@@ -40,8 +41,8 @@ namespace PokerGameLibrary.GamePlayer
         /// Storages player money.
         /// </summary>
         /// <exception cref="Exception">Throws when the player has negative amount of money.</exception>
-        private int _money;
-        public int Money
+        private BigInteger _money;
+        public BigInteger Money
         {
             get { return _money; }
             set
@@ -55,14 +56,14 @@ namespace PokerGameLibrary.GamePlayer
         /// <summary>
         /// Storages current session minimum bet
         /// </summary>
-        public int MinBet { get; set; }
+        public BigInteger MinBet { get; set; }
 
         /// <summary>
         /// Storages player current bet. It equals to null, if player hasn't bet yet.
         /// </summary>
         /// <exception cref="Exception">Throws when the player has negative amount of betted money.</exception>
-        private int _currBetMoney = 0;
-        public int CurrBetMoney
+        private BigInteger _currBetMoney = 0;
+        public BigInteger CurrBetMoney
         {
             get { return _currBetMoney; }
             set
@@ -147,7 +148,7 @@ namespace PokerGameLibrary.GamePlayer
         /// Makes a Bet in the game.
         /// </summary>
         /// <exception cref="Exception">Throws when the player cannot make this action.</exception>
-        public void Bet(int money)
+        public void Bet(BigInteger money)
         {
             if (!_possibleGameActionsMethods.Contains("Bet") && MoneyToCall != 0)
                 throw new Exception("You cannot use this method in current game situation!");
@@ -155,7 +156,7 @@ namespace PokerGameLibrary.GamePlayer
                 throw new Exception("You cannot bet less than a minimum bet!");
 
             Status = PlayerStatus.InAuction;
-            int delta = money - CurrBetMoney;
+            BigInteger delta = money - CurrBetMoney;
             if (delta > Money)
             {
                 AllIn();
@@ -182,7 +183,7 @@ namespace PokerGameLibrary.GamePlayer
         /// Makes a Raise in the game.
         /// </summary>
         /// <exception cref="Exception">Throws when the player cannot make this action.</exception>
-        public void Raise(int money)
+        public void Raise(BigInteger money)
         {
             if (!_possibleGameActionsMethods.Contains("Raise"))
                 throw new Exception("You cannot use this method in current game situation!");
@@ -217,7 +218,7 @@ namespace PokerGameLibrary.GamePlayer
         /// <param name="betMoney">Current bet of the player.</param>
         /// <param name="playerStatus">The game status of the player.</param>
         /// <param name="playerRole">The game role of the player</param>
-        public Player(List<Card> cardList, int money, int betMoney, PlayerStatus playerStatus, PlayerRole playerRole)
+        public Player(List<Card> cardList, BigInteger money, BigInteger betMoney, PlayerStatus playerStatus, PlayerRole playerRole)
         {
             CardList = cardList;
             Money = money;
@@ -230,7 +231,7 @@ namespace PokerGameLibrary.GamePlayer
         /// The simplified constructor. Good to use before the beginning of the game.
         /// </summary>
         /// <param name="money">Money of the player.</param>
-        public Player(int money) : this(null, money, 0, PlayerStatus.Waiting, PlayerRole.None) { }
+        public Player(BigInteger money) : this(null, money, 0, PlayerStatus.Waiting, PlayerRole.None) { }
         /// <summary>
         /// Base constructor
         /// </summary>

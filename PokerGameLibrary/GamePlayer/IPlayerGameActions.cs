@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Numerics;
 
 namespace PokerGameLibrary.GamePlayer
 {
@@ -25,7 +26,7 @@ namespace PokerGameLibrary.GamePlayer
         /// <summary>
         /// Makes a Bet in the game.
         /// </summary>
-        void Bet(int money);
+        void Bet(BigInteger money);
         /// <summary>
         /// Makes a Call in the game.
         /// </summary>
@@ -33,7 +34,7 @@ namespace PokerGameLibrary.GamePlayer
         /// <summary>
         /// Makes a Raise in the game.
         /// </summary>
-        void Raise(int money);
+        void Raise(BigInteger money);
         /// <summary>
         /// Makes an All-In in the game.
         /// </summary>

@@ -17,7 +17,7 @@ namespace DatabaseService.DatabaseSecurity
         /// <param name="password">Users input password</param>
         /// <param name="userSalt">Field to save userSalt</param>
         /// <returns>Hash from given password</returns>
-        public (string, string) HashPassword(string password, string userSalt=null, string globalSalt = null)
+        public (string hash, string salt) HashPassword(string password, string userSalt=null, string globalSalt = null)
         {
             string globalSaltHash = "";
             if (globalSalt != null)
@@ -32,7 +32,7 @@ namespace DatabaseService.DatabaseSecurity
             {
                 hashPassword = GetStringHash(hashPassword + globalSaltHash + saltHash);
             }
-            return (hashPassword, userSalt);
+            return (hash: hashPassword, salt: userSalt);
         }
         private string GetRandomSalt(int saltLength)
         {
@@ -74,7 +74,7 @@ namespace DatabaseService.DatabaseSecurity
                 throw new Exception("Input password or users password can't be equal to null!");
             }
 
-            if (HashPassword(password, salt, globalSalt).Item1 == passwordHashToComp)
+            if (HashPassword(password, salt, globalSalt).hash == passwordHashToComp)
                 return true;
             else
                 return false;

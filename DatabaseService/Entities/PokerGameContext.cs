@@ -37,6 +37,10 @@ namespace DatabaseService.Entities
         {
             modelBuilder.Entity<PlayerModel>().HasKey(p => p.Name);
 
+            modelBuilder.Entity<PlayerModel>().Ignore(p => p.Money); //т.к. это BigInteger
+            modelBuilder.Entity<GameSessionModel>().Ignore(g => g.Profit);
+            modelBuilder.Entity<GameSessionModel>().Ignore(g => g.Bank);
+
             //One-to-many
             modelBuilder.Entity<PlayerModel>()
                 .HasMany(p => p.Games)

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using PokerGameLibrary.GamePlayer.Enums;
+using System.Numerics;
 
 namespace PokerGameLibrary.GamePlayer
 {
@@ -12,11 +12,11 @@ namespace PokerGameLibrary.GamePlayer
         /// <summary>
         /// Storages player money.
         /// </summary>
-        int Money { get; set; }
+        BigInteger Money { get; set; }
         /// <summary>
         /// Storages player current bet. It equals to null, if player hasn't bet yet.
         /// </summary>
-        int CurrBetMoney { get; set; }
+        BigInteger CurrBetMoney { get; set; }
         /// <summary>
         /// Storages game status of the player.
         /// </summary>

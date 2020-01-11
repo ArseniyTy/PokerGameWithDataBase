@@ -15,7 +15,7 @@ namespace DatabaseService.DatabaseSecurity
         /// <param name="password">Input password</param>
         /// <param name="salt">Reference on user salt</param>
         /// <returns>String representation of hash of the password</returns>
-        (string, string) HashPassword(string password, string userSalt = null, string globalSalt = null);
+        (string hash, string salt) HashPassword(string password, string userSalt = null, string globalSalt = null);
 
 
         /// <summary>

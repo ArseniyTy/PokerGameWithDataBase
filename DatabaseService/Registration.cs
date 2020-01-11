@@ -3,6 +3,7 @@ using System.Linq;
 using DatabaseService.DatabaseSecurity;
 using DatabaseService.Entities;
 using DatabaseService.Entities.Models;
+using System.Numerics;
 
 namespace DatabaseService
 {
@@ -18,15 +19,15 @@ namespace DatabaseService
         /// <param name="name">Player name</param>
         /// <param name="money">Player money</param>
         /// <param name="password">Player password</param>
-        public static void SignUp(string name, int money, string password)
+        public static void SignUp(string name, BigInteger money, string password)
         {
-            var pokerGameContext = new PokerGameContext();
-            var player = new PlayerModel { Name = name, Money = money };
+            using var pokerGameContext = new PokerGameContext();
+            var player = new PlayerModel { Name = name, Money = money, MoneyStr = money.ToString() };
 
             IPasswordHasher passwordHasher = new CryptographyHelper();
             var hashAndSalt_tuple = passwordHasher.HashPassword(password, globalSalt: PlayerModel.globalSalt);
-            player.PasswordHash = hashAndSalt_tuple.Item1;
-            player.PasswordSalt = hashAndSalt_tuple.Item2;
+            player.PasswordHash = hashAndSalt_tuple.hash;
+            player.PasswordSalt = hashAndSalt_tuple.salt;
 
 
             ///нельзя одинаковые имена - уже отслеживается, т.к. это KEY
@@ -48,12 +49,13 @@ namespace DatabaseService
         /// <param name="password">Player password</param>
         /// <param name="money">Player money</param>
         /// <returns></returns>
-        public static bool SignIn(string name, string password, out int money)
+        public static bool SignIn(string name, string password, out BigInteger money)
         {
-            var pokerGameContext = new PokerGameContext();
+            using var pokerGameContext = new PokerGameContext();
             IPasswordHasher passwordHasher = new CryptographyHelper();
             var player = pokerGameContext.Players
                 .FirstOrDefault(p => p.Name == name);
+            player.Money = BigInteger.Parse(player.MoneyStr);
 
             if(player != null)
             {

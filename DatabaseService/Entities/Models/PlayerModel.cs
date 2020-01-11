@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DatabaseService.DatabaseSecurity;
+using System.Numerics;
 
 namespace DatabaseService.Entities.Models
 {
@@ -36,13 +36,15 @@ namespace DatabaseService.Entities.Models
         }
 
 
-        private int _money;
-        public int Money
+        public string MoneyStr { get; set; }
+        private BigInteger _money;
+
+        public BigInteger Money
         {
             get { return _money; }
             set
             {
-                if (value<=0)
+                if (value<0)
                     throw new Exception("Amount of money should be a positive number (>0)");
                 _money = value;
             }

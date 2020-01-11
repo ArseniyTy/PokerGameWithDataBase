@@ -4,6 +4,7 @@ using PokerGameLibrary.Cards.Enums;
 using PokerGameLibrary.Cards;
 using PokerGameLibrary.GamePlayer.Enums;
 using PokerGameLibrary.GamePlayer;
+using System.Numerics;
 
 // TODO:
 // В перспективе: сделать возможность играть с теми же(у кого меньше мин ставки, тот вылетает
@@ -125,7 +126,7 @@ namespace PokerGameLibrary
         /// <summary>
         /// Storages the amount of all bets, called Bank
         /// </summary>
-        public int Bank { get; private set; }
+        public BigInteger Bank { get; private set; }
         //лист банков игроков, за которые они борются
         //public List<int> PlayerBanks { get; private set; }
         //обновляет банк игроков и общий банк после всех торгов
@@ -148,12 +149,12 @@ namespace PokerGameLibrary
 
 
 
-        private int _minBet;
+        private BigInteger _minBet;
         /// <summary>
         /// Storages the minimum bet that is allowed.
         /// </summary>
         /// <exception cref="Exception">Throws when the value is incorrect.</exception>
-        public int MinBet
+        public BigInteger MinBet
         {
             get { return _minBet; }
             set
@@ -175,7 +176,7 @@ namespace PokerGameLibrary
         /// </summary>
         /// <param name="minBet">The minimum bet in the game.</param>
         /// <param name="moneyOfThePlayers">Integer array, which representes the amount of money they have</param>
-        public GameSession(int minBet, params int[] moneyOfThePlayers)
+        public GameSession(BigInteger minBet, params BigInteger[] moneyOfThePlayers)
         {
             //инициализация
             Bank = 0;
@@ -320,7 +321,7 @@ namespace PokerGameLibrary
         /// <returns>Returns one of: 1(final) / 0(show cards) / -1(auction)</returns>
         private int RoundAction()
         {
-            int max = 0;
+            BigInteger max = 0;
             for (int j = 0; j < Players.Count; j++)
             {
                 if (Players[j].CurrBetMoney > max)
